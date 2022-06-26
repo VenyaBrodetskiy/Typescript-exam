@@ -67,16 +67,29 @@ function createClassroom(name: string, teacher: Teacher, students: Student[]): C
     };
 }
 
+/**
+ * Method finds youngest student
+ * @param classroom of type Classroom
+ * @returns Full Name of youngest student in classroom
+ */
 export function getClassYoungestStudent(classroom: Classroom): string {
-    return classroom.students[0].firstName;
+    
+    // use reduce in order to find minimum
+    const youngestStudent = classroom.students.reduce((student1,student2) => {
+        // compare students by time in ms from 1970 year
+        // less ms means student was born earlier, which means he is older than 2nd one
+        if (student1.birthDate.getTime() < student2.birthDate.getTime()) {
+            return student2;
+        } else return student1;
+    })
+
+    return youngestStudent.fullName;
 }
 
 /**
  * Method prints all of the information about the school:
- * School data -> 
- * Class 1, Class 2 ...
+ * School data -> Class 1, Class 2 ...
  * @param school Please use result of initializeSchool()
- * 
  */
 export function printSchool(school: School): void {
 
