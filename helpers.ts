@@ -11,3 +11,9 @@ export function getRandomBirthDate(): Date {
     const day: number = Math.ceil(Math.random() * 27);  // for simplicity, students will not be born from 29 to 31 day of month
     return new Date(year, month, day);
 }
+
+// Ex 4. Add fullName() method to helpers.ts that receives firstName and lastName;
+// function which returns fullName of object, if this object has properties firstName and lastName
+export function fullName(firstName: string, lastName: string): string {
+    return firstName + ' ' + lastName;
+}

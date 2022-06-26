@@ -3,7 +3,7 @@
 
 import { firstNames, Geography, lastNames, Mathematics, History, Hebrew } from "./constants";
 import { Classroom, School, Student, Teacher } from "./entities";
-import { getRandomBirthDate, getRandomValueFromArray } from "./helpers";
+import { getRandomBirthDate, getRandomValueFromArray, fullName } from "./helpers";
 
 export function initializeSchool(): School {
     const student1: Student = createStudent(getRandomValueFromArray(firstNames), getRandomValueFromArray(lastNames), getRandomBirthDate());
@@ -38,7 +38,9 @@ function createTeacher(firstName: string, lastName: string, professions: string[
     return {
         firstName: firstName,
         lastName: lastName,
-        professions: professions
+        professions: professions,
+        // 4.1. Add fullName() method to Teacher and Student types that utilizes method added in #4.
+        fullName : fullName(firstName, lastName), // added
     };
 }
 
@@ -47,6 +49,8 @@ function createStudent(firstName: string, lastName: string, birthDate: Date): St
         firstName: firstName,
         lastName: lastName,
         birthDate: birthDate,
+        // 4.1. Add fullName() method to Teacher and Student types that utilizes method added in #4.
+        fullName : fullName(firstName, lastName), // added
         age: () => { 
             const ageDiffInMs: number = Date.now() - birthDate.getTime(); // millisecond from birth
             const ageDiffInYears: number = new Date(ageDiffInMs).getFullYear(); // milliseconds convert to years 
@@ -96,11 +100,11 @@ export function printSchool(school: School): void {
         console.log(`Class ${indexOfClass}: ${currentClass.name}`); // indexOfClass counts from 0, so need to add +1
 
         // Teacher
-        console.log(`Teacher: ${currentClass.teacher.firstName} ${currentClass.teacher.lastName}: ${currentClass.teacher.professions.join(', ')}`)
+        console.log(`Teacher: ${currentClass.teacher.fullName}: ${currentClass.teacher.professions.join(', ')}`);  // 4.2. Refactor the code of printSchool() to using fullName()  
 
         // Students: create a forEach loop to print each student
         currentClass.students.forEach((student: Student, index: number) => {
-            console.log(`${index + 1}: ${student.firstName} ${student.lastName}: ${student.age()} y.o.`);
+            console.log(`${index + 1}: ${student.fullName}: ${student.age()} y.o.`); // 4.2. Refactor the code of printSchool() to using fullName()  
         })
 
         indexOfClass++; // after printing is finished, need to add class

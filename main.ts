@@ -7,9 +7,14 @@ const school: School = initializeSchool();
 printSchool(school);
 
 // Ex 2. Explain why History constant cannot be used in constants.ts
-// Explanation: 1. its commented, so TS doesn't see it at all
-//              2. after removing comment, still will not work, as History is not exported. 
+// <Explanation>: 
+//      1. its commented, so TS doesn't see it at all
+//      2. after removing comment, still will not work, as History is not exported. 
 // Ex 3. Provide a solution for #2.
-// Please check constants.ts
+// <done> Please check constants.ts
+
+// Ex 4. Add fullName() method to helpers.ts that receives firstName and lastName;
+//	 <done> 4.1. Add fullName() method to Teacher and Student types that utilizes method added in #4.
+//	 <done> 4.2. Refactor the code of printSchool() to use the relevant type fullName() method instead of referencing properties of firstName and lastName.
 
 //console.log(getClassYoungestStudentFullName(school.classes[0]));
