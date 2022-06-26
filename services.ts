@@ -1,7 +1,7 @@
 // Ideas:
 // Build dynamically created classmates: collection of first names, collection of lastnames, randomly pick birth date
 
-import { firstNames, Geography, lastNames, Mathematics } from "./constants";
+import { firstNames, Geography, lastNames, Mathematics, History, Hebrew } from "./constants";
 import { Classroom, School, Student, Teacher } from "./entities";
 import { getRandomBirthDate, getRandomValueFromArray } from "./helpers";
 
@@ -11,14 +11,14 @@ export function initializeSchool(): School {
     const student3: Student = createStudent(getRandomValueFromArray(firstNames), getRandomValueFromArray(lastNames), getRandomBirthDate());
     const student4: Student = createStudent(getRandomValueFromArray(firstNames), getRandomValueFromArray(lastNames), getRandomBirthDate());
 
-    const teacher1: Teacher = createTeacher(getRandomValueFromArray(firstNames), getRandomValueFromArray(lastNames), [Mathematics]);
+    const teacher1: Teacher = createTeacher(getRandomValueFromArray(firstNames), getRandomValueFromArray(lastNames), [Mathematics, Hebrew]);
 
     const student5: Student = createStudent(getRandomValueFromArray(firstNames), getRandomValueFromArray(lastNames), getRandomBirthDate());
     const student6: Student = createStudent(getRandomValueFromArray(firstNames), getRandomValueFromArray(lastNames), getRandomBirthDate());
     const student7: Student = createStudent(getRandomValueFromArray(firstNames), getRandomValueFromArray(lastNames), getRandomBirthDate());
     const student8: Student = createStudent(getRandomValueFromArray(firstNames), getRandomValueFromArray(lastNames), getRandomBirthDate());
 
-    const teacher2: Teacher = createTeacher(getRandomValueFromArray(firstNames), getRandomValueFromArray(lastNames), [Geography]);
+    const teacher2: Teacher = createTeacher(getRandomValueFromArray(firstNames), getRandomValueFromArray(lastNames), [Geography, History]);
 
     const mathClass: Classroom = createClassroom("Math", teacher1, [student1, student2, student3, student4]);
     const geographyClass: Classroom = createClassroom("Geography", teacher1, [student5, student6, student7, student8]);
@@ -96,7 +96,7 @@ export function printSchool(school: School): void {
         console.log(`Class ${indexOfClass}: ${currentClass.name}`); // indexOfClass counts from 0, so need to add +1
 
         // Teacher
-        console.log(`Teacher: ${currentClass.teacher.firstName}, ${currentClass.teacher.lastName}, ${currentClass.teacher.professions}`)
+        console.log(`Teacher: ${currentClass.teacher.firstName} ${currentClass.teacher.lastName}: ${currentClass.teacher.professions.join(', ')}`)
 
         // Students: create a forEach loop to print each student
         currentClass.students.forEach((student: Student, index: number) => {
