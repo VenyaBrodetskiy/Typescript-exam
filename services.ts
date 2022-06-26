@@ -21,7 +21,7 @@ export function initializeSchool(): School {
     const teacher2: Teacher = createTeacher(getRandomValueFromArray(firstNames), getRandomValueFromArray(lastNames), [Geography, History]);
 
     const mathClass: Classroom = createClassroom("Math", teacher1, [student1, student2, student3, student4]);
-    const geographyClass: Classroom = createClassroom("Geography", teacher1, [student5, student6, student7, student8]);
+    const geographyClass: Classroom = createClassroom("Geography", teacher2, [student5, student6, student7, student8]);
 
     return {
         name: "Big school",
@@ -100,7 +100,7 @@ export function printSchool(school: School): void {
 
         // Students: create a forEach loop to print each student
         currentClass.students.forEach((student: Student, index: number) => {
-            console.log(`${index + 1}: ${student.firstName} ${student.lastName}: ${student.age()}`);
+            console.log(`${index + 1}: ${student.firstName} ${student.lastName}: ${student.age()} y.o.`);
         })
 
         indexOfClass++; // after printing is finished, need to add class
