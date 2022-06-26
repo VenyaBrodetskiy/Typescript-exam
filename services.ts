@@ -48,7 +48,9 @@ function createStudent(firstName: string, lastName: string, birthDate: Date): St
         lastName: lastName,
         birthDate: birthDate,
         age: () => { 
-            return 0;
+            const ageDiffInMs: number = Date.now() - birthDate.getTime(); // millisecond from birth
+            const ageDiffInYears: number = new Date(ageDiffInMs).getFullYear(); // milliseconds convert to years 
+            return ageDiffInYears - 1970; // offset 1970 as Date() uses 1970 year as starting point
         }
     };
 }
@@ -62,13 +64,47 @@ function createClassroom(name: string, teacher: Teacher, students: Student[]): C
 }
 
 export function getClassYoungestStudent(classroom: Classroom): string {
-    return classroom.students[10].firstName;
+    return classroom.students[0].firstName;
 }
 
+/**
+ * Method prints all of the information about the school:
+ * School data -> 
+ * Class 1, Class 2 ...
+ * @param school Please use result of initializeSchool()
+ * 
+ */
 export function printSchool(school: School): void {
+
+    // prints out School basic info
     console.log("School data:");
     console.log("============");
-    console.log(school.name);
-    console.log(school.address);
-    console.log(school.phone);
+    console.log(`Name: ${school.name}`);
+    console.log(`Address: ${school.address}`);
+    console.log(`Phone: ${school.phone}`);
+    console.log('\n');
+
+    //prints out Classes 
+    console.log("Classes:");
+    console.log("============");
+
+    // iterate through classes
+    let indexOfClass: number = 1;
+    for (const currentClass of school.classes) {
+        
+        // printing class N and name
+        console.log(`Class ${indexOfClass}: ${currentClass.name}`); // indexOfClass counts from 0, so need to add +1
+
+        // Teacher
+        console.log(`Teacher: ${currentClass.teacher.firstName}, ${currentClass.teacher.lastName}, ${currentClass.teacher.professions}`)
+
+        // Students: create a forEach loop to print each student
+        currentClass.students.forEach((student: Student, index: number) => {
+            console.log(`${index + 1}: ${student.firstName} ${student.lastName}: ${student.age()}`);
+        })
+
+        indexOfClass++; // after printing is finished, need to add class
+        console.log(''); // 
+
+    }
 }
