@@ -6,7 +6,16 @@ export const History: string = 'History';
 export const Chemistry: string = "Chemistry";
 export const Physics: string = "Physics";
 
-// better organize professions as const array in future
+// better organize professions as const array
+export const professions: string[] = [
+    'Math',
+    'Hebrew',
+    'Geography',
+    'History',
+    'Chemistry',
+    'Physics',
+    'English',
+]
 
 export const firstNames: string[] = [
     "Ivan",

@@ -1,7 +1,7 @@
 // Ideas:
 // Build dynamically created classmates: collection of first names, collection of lastnames, randomly pick birth date
 import * as _ from 'lodash';
-import { firstNames, Geography, lastNames, Mathematics, History, Hebrew } from "./constants";
+import { firstNames, Geography, lastNames, Mathematics, History, Hebrew, professions } from "./constants";
 import { Classroom, School, Student, Teacher } from "./entities";
 import { getRandomBirthDate, getRandomValueFromArray, fullName } from "./helpers";
 
@@ -24,13 +24,71 @@ export function initializeSchool(): School {
     const geographyClass: Classroom = createClassroom("Geography", teacher2, [student5, student6, student7, student8]);
 
     return {
-        name: "Big school",
+        name: "1st school",
         address: "Moscow",
         phone: "+7 (916) 000 12 21",
         classes: [
             mathClass,
             geographyClass
         ]
+    }
+}
+
+/**
+ * Dynamically creates school using below parameters:
+ * @param numOfClasses how much classrooms will be created. by default = 3
+ * @param maxStudentsInClass maximum students in 1 classroom. For each classroom N of students will be random up to maximum. by default = 10
+ * @param maxProfessionsForTeacher maximum professions for each teacher. Will be random up to maximum. by default = 3
+ */
+export function initializeSchoolDynamically(numOfClasses: number = 3, maxStudentsInClass: number = 10, maxProfessionsForTeacher: number = 3): School {
+    let classes: Classroom[] = [];
+
+    // generate classrooms
+    for (let indexOfClass = 0; indexOfClass < numOfClasses; indexOfClass++) {
+        
+        // generate professions for teacher
+        const prof: string[] = []; // create empty array of profession
+        const numberOfProfessions: number = Math.ceil(Math.random() * maxProfessionsForTeacher);
+
+        for (let indexOfProfession = 0; indexOfProfession < numberOfProfessions; indexOfProfession++) {
+            prof.push(getRandomValueFromArray(professions));
+        }
+
+        // generate teacher, using array of proffesion for this teacher
+        const teacher: Teacher = createTeacher(
+            getRandomValueFromArray(firstNames), 
+            getRandomValueFromArray(lastNames), 
+            prof);
+
+        // generate name of classroom based on array of this teacher's professions
+        const nameOfClass: string = getRandomValueFromArray(prof);
+        
+        // generate students for each classroom
+        let students: Student[] = []; // create empty array of students
+        const numberOfStudents: number = Math.ceil(Math.random() * maxStudentsInClass); // randomize N of students not more than Max Students in Class
+
+        for (let indexOfStudents = 1; indexOfStudents <= numberOfStudents; indexOfStudents++) {
+            // create new students randomly
+            students.push(createStudent(
+                getRandomValueFromArray(firstNames), 
+                getRandomValueFromArray(lastNames), 
+                getRandomBirthDate()));
+        }
+
+        // create Classroom based on generated above and add it to array of Classrooms
+        classes.push(createClassroom(
+            nameOfClass,
+            teacher,
+            students,
+        ))
+
+    }
+
+    return {
+        name: 'Big School',
+        address: 'Tel Aviv',
+        phone: '+7 (916) 000 12 21',
+        classes: classes,
     }
 }
 
@@ -119,13 +177,15 @@ export function printSchool(school: School): void {
         currentClass.students.forEach((student: Student, index: number) => {
             console.log(`${index + 1}: ${student.fullName}: ${student.age()} y.o.`); // 4.2. Refactor the code of printSchool() to using fullName()  
         })
-
+        
         indexOfClass++; // after printing is finished, need to add class
+
+        console.log(''); // just improve readibility
     }
 }
 
 /**
- * Sorts School object by name of Classes
+ * Method sorts School object by name of Classes
  * @param school recieves School
  * @returns new object, doesn't mutate input object
  */
@@ -142,15 +202,15 @@ export function sortByClassName(school: School): School {
         return 0;
     });
 
-    // Option 2. Sorting can be done by _underscore package
-    //
+    // Option 2. Sorting can be done by _lodash package
+    // sortedSchool.classes = _.sortBy(sortedSchool.classes, 'name');
     //
 
     return sortedSchool;
 }
 
 /**
- * Sorts School Classes by lastName -> firstName
+ * Methos sorts School Classes by lastName -> firstName
  * @param school recieves School
  * @returns new object, doesn't mutate input object
  */
@@ -171,8 +231,8 @@ export function sortStudentsInClass(school: School): School {
             return 0;
         })
 
-        // Option 2. Sorting can be done by _underscore package
-        //
+        // Option 2. Sorting can be done by _lodash package
+        // currentClass.students = _.sortBy(currentClass.students, ['lastName', 'firstName']);
         //
     }
 
@@ -180,12 +240,12 @@ export function sortStudentsInClass(school: School): School {
 }
 
 /**
- * 
- * @param fullName 
+ * Transfers student from Classroom1 to Classroom2
+ * @param fullName of student
  * @param fromClassroom 
- * @param toClassrom 
+ * @param toClassroom 
  */
-export function transferStudent(fullName: string, fromClassroom: Classroom, toClassrom: Classroom): void {
+export function transferStudent(fullName: string, fromClassroom: Classroom, toClassroom: Classroom): void {
 
     //find Student and his index by fullName
     const student: Student = fromClassroom.students.filter(student => student.fullName === fullName)[0];
@@ -194,7 +254,10 @@ export function transferStudent(fullName: string, fromClassroom: Classroom, toCl
     //transfer student from class to class
     // remove from original classroom
     fromClassroom.students.splice(indexOfStudent, 1);
-    // add to new classroom
-    toClassrom.students.push(student);
 
+    // add to new classroom
+    toClassroom.students.push(student);
+
+    // make sure receiving classroom remains sorted
+    toClassroom.students = _.sortBy(toClassroom.students, ['lastName', 'firstName']);
 }

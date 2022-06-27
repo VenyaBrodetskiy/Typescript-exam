@@ -1,6 +1,6 @@
 import { Classroom, School } from "./entities";
 import { getRandomValueFromArray } from "./helpers";
-import { getClassYoungestStudent as getYoungestStudent, initializeSchool, printSchool, sortByClassName, sortStudentsInClass, transferStudent } from "./services";
+import { getClassYoungestStudent as getYoungestStudent, initializeSchool, initializeSchoolDynamically, printSchool, sortByClassName, sortStudentsInClass, transferStudent } from "./services";
 
 const school: School = initializeSchool();
 
@@ -29,6 +29,7 @@ console.log('\nEx. 5 Youngest Student:')
 console.log(`Youngest student in ${school.classes[0].name} class is: ${getYoungestStudent(school.classes[0])}`);
 console.log(`Youngest student in ${school.classes[1].name} class is: ${getYoungestStudent(school.classes[1])}`);
 console.log('___________________________________________________________________');
+// ================================================================
 
 
 // Ex. 6 printSchool output should be:
@@ -44,6 +45,7 @@ sortedSchool = sortStudentsInClass(sortedSchool);
 console.log('\nEx. 6 Sorted School:');
 printSchool(sortedSchool);
 console.log('___________________________________________________________________');
+// ================================================================
 
 
 // Ex. 7 Add a method that tranfers a student by name from one class to another:
@@ -63,5 +65,24 @@ console.log(`Transfering student "${studentFullName}" from Class ${fromClassroom
 console.log('School after transfer looks like:\n')
 transferStudent(studentFullName, fromClassroom, toClassrom);
 
-// veryfy, that transfer made correctly
-printSchool(sortedSchool);
+printSchool(sortedSchool); // veryfy, that transfer made correctly
+console.log('___________________________________________________________________');
+// ================================================================
+
+
+// Ex. 8 Add a method to create a school dynamically:
+// 	    Number of classes;
+// 	    Generation of a teacher for each class;
+// 	    Random number of students in each class up to some limit (i.e. no more than 30 students in a class)
+// 	    Verify output by solution added in #1
+
+console.log('\nEx. 8 Create a school dynamically:');
+
+const numOfClasses = 4; // change in order to check how dynamical initialization works
+const maxStudents = 10; // change in order to check how dynamical initialization works
+
+const bigSchool: School = initializeSchoolDynamically(numOfClasses, maxStudents); // create school with new method
+// const bigSchool: School = initializeSchoolDynamically(); // such function call also possible, as initializeSchoolDynamically has default parameters
+
+let bigSchoolSorted = sortStudentsInClass(sortByClassName(bigSchool)); // sort to improve readability
+printSchool(bigSchoolSorted); //print school
