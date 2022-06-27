@@ -125,3 +125,58 @@ export function printSchool(school: School): void {
 
     }
 }
+
+/**
+ * Sorts School object by name of Classes
+ * @param school recieves School
+ * @returns new object, doesn't mutate input object
+ */
+export function sortByClassName(school: School): School {
+    // make copy of school not to mutate original object
+    const sortedSchool: School = { ...school };
+
+    // sorting ascending by classroom name
+    sortedSchool.classes.sort((class1, class2) => {
+        if (class1.name < class2.name)
+            return -1;
+        if (class1.name > class2.name)
+            return 1;
+        return 0;
+    });
+
+    // Option 2. Sorting can be done by _underscore package
+    //
+    //
+
+    return sortedSchool;
+}
+
+/**
+ * Sorts School Classes by lastName -> firstName
+ * @param school recieves School
+ * @returns new object, doesn't mutate input object
+ */
+export function sortStudentsInClass(school: School): School {
+    // make copy of school not to mutate original object
+    const sortedSchool: School = { ...school };
+
+    // we should iterate each classroom and perform same sorting for each of classroom
+    for (const currentClass of sortedSchool.classes) {
+        
+        // sorting lastName -> firstName
+        // (this should be faster way, compared to sorting 2 times, as each current class is iterated only once, not 2 times)
+        currentClass.students.sort((student1, student2) => {
+            if (student1.lastName < student2.lastName) return -1;
+            if (student1.lastName > student2.lastName) return 1;
+            if (student1.lastName === student2.lastName && student1.firstName < student2.firstName) return -1;
+            if (student1.lastName === student2.lastName && student1.firstName > student2.firstName) return 1;
+            return 0;
+        })
+
+        // Option 2. Sorting can be done by _underscore package
+        //
+        //
+    }
+    
+    return sortedSchool;
+}
