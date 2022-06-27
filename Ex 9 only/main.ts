@@ -20,6 +20,7 @@ const school: School = new School();
 //
 //
 
+console.log('<Ex. 1> Print school without sorting:')
 school.printSchool(); 
 
 console.log('___________________________________________________________________');
@@ -72,7 +73,6 @@ console.log('\n<Ex. 7> Transfer student:');
 // Names of students are generated randomly, so I need to pick up student name from existing array during runtime. 
 // So let's also pick up student randomly from 1st class 
 const studentFullName: string = getRandomValueFromArray(sortedSchool.classes[0].students).fullName;
-
 // picking classroom
 const fromClassroom: Classroom = sortedSchool.classes[0];
 const toClassrom: Classroom = sortedSchool.classes[1];
@@ -95,7 +95,7 @@ console.log('\n<Ex. 8> Create a school dynamically:');
 const numOfClasses = 4; // change in order to check how dynamical initialization works
 const maxStudents = 10; // change in order to check how dynamical initialization works
 
-const bigSchool: School = new School(numOfClasses, maxStudents);
+const bigSchool: School = new School(numOfClasses, maxStudents, 'Big School', 'Tel Aviv', '+972 3 222 22 22');
 
 // sort and print to improve readability
 let bigSchoolSorted = School.sortByClassName(bigSchool);

@@ -54,15 +54,10 @@ export class Teacher implements ITeacher {
     professions: string[];
     maxProfessions: number;
     fullName: string;
-    private static _defaultMaxProf = 3;
-
-     /**
-     * Creates teacher. If any of parameters is not specified, creates random value for it
-     * @param maxProfessions in case it's not specified, will take from _defaultMaxProf
-     */
+    private static _defaultMaxProf = 2;
 
     /**
-     * 
+     * Creates teacher. If any of parameters is not specified, creates random value for it
      * @param firstName use only if you wish to create object manually
      * @param lastName use only if you wish to create object manually
      * @param professions use only if you wish to create object manually
@@ -214,8 +209,8 @@ export class School implements ISchool {
     address: string;
     phone: string;
     classes: Classroom[];
-    private _defaultName = 'Big School';
-    private _defaultAddress = 'Tel Aviv';
+    private _defaultName = 'Small School';
+    private _defaultAddress = 'Moscow';
     private _defaultPhone = '+7 (916) 000 12 21';
     private static _defaultNumOfClasses = 2;
     private static _defaultMaxStudentsInClass = 5;
@@ -224,9 +219,13 @@ export class School implements ISchool {
      * Creates School. If classes are not specify, creates randomly based on params
      * @param numOfClasses creates N of classes according to this value. Takes default value from _defaultNumOfClasses
      * @param maxStudentsInClass maximum students in 1 classroom. For each classroom N of students will be random up to maximum. Takes default value takes from School._defaultMaxStudentsInClass = 10
+     * @param name optional
+     * @param address optional
+     * @param phone optional
      * @param classes use only if you wish to create object manually
      */
-    constructor(numOfClasses: number = School._defaultNumOfClasses, maxStudentsInClass: number = School._defaultMaxStudentsInClass, classes?: Classroom[]) {
+    constructor(numOfClasses: number = School._defaultNumOfClasses, maxStudentsInClass: number = School._defaultMaxStudentsInClass, 
+                name?: string, address?: string, phone?: string, classes?: Classroom[]) {
         
         // check if classes are specified
         if (typeof classes !== 'undefined') {
@@ -239,9 +238,14 @@ export class School implements ISchool {
             }
         }
 
-        this.name = this._defaultName;
-        this.address = this._defaultAddress;
-        this.phone = this._defaultPhone;
+        if (typeof name === 'undefined') this.name = this._defaultName;
+        else this.name = name;
+
+        if (typeof address === 'undefined') this.address = this._defaultAddress;
+        else this.address = address;
+
+        if (typeof phone === 'undefined') this.phone = this._defaultPhone;
+        else this.phone = phone;
     }
 
     /**
