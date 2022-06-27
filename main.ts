@@ -1,10 +1,13 @@
-import { School } from "./entities";
-import { getClassYoungestStudent as getYoungestStudent, initializeSchool, printSchool, sortByClassName, sortStudentsInClass } from "./services";
+import { Classroom, School } from "./entities";
+import { getRandomValueFromArray } from "./helpers";
+import { getClassYoungestStudent as getYoungestStudent, initializeSchool, printSchool, sortByClassName, sortStudentsInClass, transferStudent } from "./services";
 
 const school: School = initializeSchool();
 
 // Ex 1. Enhance printSchool() method so it prints all of the information about the school in the following formats
 printSchool(school);
+console.log('___________________________________________________________________');
+
 
 // ================================================================
 // Ex 2. Explain why History constant cannot be used in constants.ts
@@ -20,9 +23,12 @@ printSchool(school);
 //	 <done> 4.2. Refactor the code of printSchool() to use the relevant type fullName() method instead of referencing properties of firstName and lastName.
 // ================================================================
 
+
 // Ex 5. Fix the logic for getClassYoungestStudent().
+console.log('\nEx. 5 Youngest Student:')
 console.log(`Youngest student in ${school.classes[0].name} class is: ${getYoungestStudent(school.classes[0])}`);
 console.log(`Youngest student in ${school.classes[1].name} class is: ${getYoungestStudent(school.classes[1])}`);
+console.log('___________________________________________________________________');
 
 
 // Ex. 6 printSchool output should be:
@@ -35,4 +41,27 @@ let sortedSchool = sortByClassName(school);
 sortedSchool = sortStudentsInClass(sortedSchool);
 
 //print sorted copy of School
+console.log('\nEx. 6 Sorted School:');
+printSchool(sortedSchool);
+console.log('___________________________________________________________________');
+
+
+// Ex. 7 Add a method that tranfers a student by name from one class to another:
+//	    Prototype: services.transferStudent(fullName: string, fromClassroom: Classroom, toClassrom: Classroom): void
+//	    Verify that the transfer is made correctly by calling to printSchool() before and after the transfer.
+console.log('\nEx. 7 Transfer student:');
+
+// Names of students are generated randomly, so I need to pick up student name from existing array during runtime. 
+// So let's also pick up student randomly from 1st class 
+const studentFullName: string = getRandomValueFromArray(sortedSchool.classes[0].students).fullName;
+
+// picking classroom
+const fromClassroom: Classroom = sortedSchool.classes[0];
+const toClassrom: Classroom = sortedSchool.classes[1];
+
+console.log(`Transfering student "${studentFullName}" from Class ${fromClassroom.name} >> Class ${toClassrom.name}`)
+console.log('School after transfer looks like:\n')
+transferStudent(studentFullName, fromClassroom, toClassrom);
+
+// veryfy, that transfer made correctly
 printSchool(sortedSchool);

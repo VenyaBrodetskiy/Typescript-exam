@@ -1,6 +1,6 @@
 // Ideas:
 // Build dynamically created classmates: collection of first names, collection of lastnames, randomly pick birth date
-
+import * as _ from 'lodash';
 import { firstNames, Geography, lastNames, Mathematics, History, Hebrew } from "./constants";
 import { Classroom, School, Student, Teacher } from "./entities";
 import { getRandomBirthDate, getRandomValueFromArray, fullName } from "./helpers";
@@ -99,7 +99,7 @@ export function printSchool(school: School): void {
     console.log(`Name: ${school.name}`);
     console.log(`Address: ${school.address}`);
     console.log(`Phone: ${school.phone}`);
-    console.log('\n');
+    console.log('');
 
     //prints out Classes 
     console.log("Classes:");
@@ -121,8 +121,6 @@ export function printSchool(school: School): void {
         })
 
         indexOfClass++; // after printing is finished, need to add class
-        console.log(''); // 
-
     }
 }
 
@@ -133,7 +131,7 @@ export function printSchool(school: School): void {
  */
 export function sortByClassName(school: School): School {
     // make copy of school not to mutate original object
-    const sortedSchool: School = { ...school };
+    const sortedSchool: School = _.cloneDeep(school);
 
     // sorting ascending by classroom name
     sortedSchool.classes.sort((class1, class2) => {
@@ -158,7 +156,7 @@ export function sortByClassName(school: School): School {
  */
 export function sortStudentsInClass(school: School): School {
     // make copy of school not to mutate original object
-    const sortedSchool: School = { ...school };
+    const sortedSchool: School = _.cloneDeep(school);
 
     // we should iterate each classroom and perform same sorting for each of classroom
     for (const currentClass of sortedSchool.classes) {
@@ -177,6 +175,26 @@ export function sortStudentsInClass(school: School): School {
         //
         //
     }
-    
+
     return sortedSchool;
+}
+
+/**
+ * 
+ * @param fullName 
+ * @param fromClassroom 
+ * @param toClassrom 
+ */
+export function transferStudent(fullName: string, fromClassroom: Classroom, toClassrom: Classroom): void {
+
+    //find Student and his index by fullName
+    const student: Student = fromClassroom.students.filter(student => student.fullName === fullName)[0];
+    const indexOfStudent: number = fromClassroom.students.indexOf(student)
+
+    //transfer student from class to class
+    // remove from original classroom
+    fromClassroom.students.splice(indexOfStudent, 1);
+    // add to new classroom
+    toClassrom.students.push(student);
+
 }

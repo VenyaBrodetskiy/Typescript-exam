@@ -1,4 +1,10 @@
-export function getRandomValueFromArray(array: string[]): string {
+/**
+ * Takes array of smth and return random element of this array
+ * @param array array of same objects of any type
+ * @returns one of objects of input array
+ */
+export function getRandomValueFromArray<T>(array: T[]): T {
+    // changed string input/output -> generic type in order to use not only for array of string, but also for array of objects
     return array[Math.floor(Math.random() * array.length)];
 }
 
